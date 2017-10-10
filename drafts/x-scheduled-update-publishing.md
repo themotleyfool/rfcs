@@ -1,7 +1,7 @@
-# RFC 1: Scheduled Publishing for Page updates
+# RFC X: Scheduled Publishing for Page updates
 
 
-*   RFC: 1
+*   RFC: X
 *   Author: Patrick Woods
 *   Status: Draft
 *   Created: 2017-10-04
