@@ -11,7 +11,7 @@
 
 
 Scheduled publishing currently only effectively allows you to schedule
-new pages. If you schedule a revision for currently published page the
+new pages. If you schedule a revision for a currently published page, the
 page will be unpublished in the process. This behavior limits the
 feature's funtionality to only new pages or pages that can be
 unpublished until the new publish time.
@@ -35,15 +35,15 @@ its status set to live until the go live time is met
 
 This would follow the current publishing workflow
 
-1.  User creates a new page with a`go_live_time` in the future
-2.  User publishes page.
+1.  User creates a new page with a `go_live_time` in the future
+2.  User publishes page
 3.  Page does not go live
 4.  User receives a message indicating that page has been scheduled
 
 ### Existing Page Workflow
 
-1.  User updates a page with a`go_live_time` in the future
-2.  User publishes page.
+1.  User updates a page with a `go_live_time` in the future
+2.  User publishes page
 3.  New changes do not go live
 4.  Page is still accessible with old revision
 5.  User receives a message indicating that page has been scheduled
@@ -52,14 +52,14 @@ This would follow the current publishing workflow
 
 This seems to be achievable by changing `PageRevision.publish` to not
 update the page object if `go_live_time` is in the future. So the
-scheduled part of `PageRevision.publish` would resemble.
+scheduled part of `PageRevision.publish` would resemble:
 
 ``` python
 if page.go_live_at and page.go_live_at > timezone.now():
     # Set the approved_go_live_at of this revision
     self.approved_go_live_at = page.go_live_at
     self.save()
-    # And clear the the approved_go_live_at of any other revisions
+    # And clear the approved_go_live_at of any other revisions
     page.revisions.exclude(id=self.id).update(approved_go_live_at=None)
     return
 ```
@@ -89,8 +89,7 @@ scheduled revisions. This could be made opt in when publishing if we
 want to allow multiple ones. Some of the revision publish logic would
 have to change.
 
-### How to handle changes to current published revision if another\
-revision is already scheduled?
+### How to handle changes to current published revision if another revision is already scheduled?
 
 How should we handle a user scheduling a revision and then having to
 edit the current live revision, say to edit a typo? If we are only
@@ -122,6 +121,6 @@ possible with existing tools.
 
 ### Should Go live time be limited to certain permissions?
 
-Currently go live and expiry dates are exposed to non privileged users
-should this change? Also not sure if this needs be done as part of this
+Currently go live and expiry dates are exposed to non privileged users.
+Should this change? Not clear if this needs be done as part of this
 functionality.
