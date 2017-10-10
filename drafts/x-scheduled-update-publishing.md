@@ -124,3 +124,10 @@ possible with existing tools.
 Currently go live and expiry dates are exposed to non privileged users.
 Should this change? Not clear if this needs be done as part of this
 functionality.
+
+### Synchronize admin messaging and revision publishing/scheduling
+
+Currently the admin messaging and goes through its own logic to figure out scheduling vs publishing.
+Since that behavior is really controlled by `PageRevision.publish` should that method return a status
+that the view can leverage to determine messaging?  The naive implementation above for example causes
+teh behavior and messaging to get out of sync.
